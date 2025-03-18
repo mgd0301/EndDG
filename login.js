@@ -1,11 +1,24 @@
 const express = require("express");
 const mysql = require("mysql2");
 const dotenv = require("dotenv");
+const cors = require("cors");
+
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+
+// Habilitar CORS para todas las solicitudes
+app.use(cors({
+    origin: "*",  // Permite cualquier origen (para desarrollo, luego puedes restringirlo)
+    methods: ["GET", "POST"],  // Métodos permitidos
+    allowedHeaders: ["Content-Type", "Authorization"]  // Headers permitidos
+  }));
+  
+
+  
 
 app.use(express.json());
 
