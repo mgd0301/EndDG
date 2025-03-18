@@ -11,6 +11,8 @@ app.use(express.json());
 
 // Configuración del pool de conexiones
 const pool = mysql.createPool({
+
+
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
@@ -23,6 +25,13 @@ const pool = mysql.createPool({
 
 // Intentar obtener una conexión para verificar si la base de datos está accesible
 pool.getConnection((err, connection) => {
+
+console.log("DB_HOST:", process.env.DB_HOST);
+console.log("DB_USER:", process.env.DB_USER);
+console.log("DB_PASS:", process.env.DB_PASS);
+console.log("DB_NAME:", process.env.DB_NAME);
+console.log("DB_PORT:", process.env.DB_PORT);
+
   if (err) {
     let errorMessage = "Error de conexión a la base de datos";
     if (err.code === 'ER_ACCESS_DENIED_ERROR') {
