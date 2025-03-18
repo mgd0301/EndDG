@@ -19,11 +19,11 @@ const pool = mysql.createPool({
   //database: process.env.DB_NAME,
   //port: process.env.DB_PORT || 3306,  // Usar 3306 como valor predeterminado si no se establece el puerto
 
-  host: "mysql.railway.internal",
+  host: "maglev.proxy.rlwy.net",
   user: "root",
   password: "QcNybAWYyxOoIgcoriyMDfJYItonwgiT",
   database: "railway",
-  port: "3306",
+  port: "18008",
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
