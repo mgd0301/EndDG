@@ -63,7 +63,7 @@ app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
   pool.query(
-    "SELECT * FROM usuarios WHERE usuario = ? AND clave = ? and estado = 'A'",
+    "SELECT codusuario, nombre, usuario FROM usuarios WHERE usuario = ? AND clave = ? and estado = 'A'",
     [username, password],
     (err, results) => {
       if (err) {
