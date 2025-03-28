@@ -2,6 +2,17 @@ const express = require("express");
 const mysql = require("mysql2");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const nodemailer = require('nodemailer');
+
+// Configuración del transporte de correo (usando Gmail)
+const transporter = nodemailer.createTransport({
+  service: 'gmail', // Usamos el servicio de Gmail
+  auth: {
+    user: 'zielsoftvm@gmail.com',   // Tu correo de Gmail
+    pass: 'agvjuzybksgcjmnm',         // Tu contraseña de Gmail (o contraseña de aplicación)
+  },
+});
+
 
 
 dotenv.config();
@@ -95,6 +106,36 @@ app.post("/login", (req, res) => {
     }
   );
 });
+
+
+// Endpoint para enviar correo
+app.post("/enviar-email", (req, res) => {
+  const { nombre, email, mensaje, destinatario } = req.body;
+
+  if (!nombre || !email || !mensaje || !destinatario) {
+    return res.status(400).json({ error: 'Faltan datos' });
+  }
+
+  // Configuración del correo
+  const mailOptions = {
+    from: email,                      // El correo del que envía el mensaje
+    to: destinatario,                 // El correo de destino
+    subject: `Nuevo mensaje de ${nombre}`,  // Asunto del correo
+    text: mensaje,                    // Cuerpo del mensaje
+    html: `<p><strong>De:</strong> ${nombre} <br><strong>Email:</strong> ${email} <br><strong>Mensaje:</strong><br> ${mensaje}</p>`,  // Cuerpo en HTML (opcional)
+  };
+
+  // Enviar el correo
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return res.status(500).json({ error: 'Error al enviar el email', details: error });
+    }
+    res.json({ mensaje: 'Correo enviado con éxito', info });
+  });
+});
+
+
+
 
 // Iniciar el servidor
 app.listen(PORT, () => {
